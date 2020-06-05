@@ -4,18 +4,28 @@
  * and open the template in the editor.
  */
 package View;
+import java.sql.*;
+import javax.swing.JOptionPane;
 
 /**
  *
  * @author ramon
  */
 public class Login extends javax.swing.JFrame {
+    private String nome, senha;
+    private int encontrou;
+    
+   // private MenuPrincipal entrarMenu;
 
     /**
      * Creates new form Login
      */
     public Login() {
         initComponents();
+        nome = "";
+        senha = "";
+        encontrou = 0;
+      // MenuPrincipal entrarMenu = new MenuPrincipal();
     }
 
     /**
@@ -54,6 +64,11 @@ public class Login extends javax.swing.JFrame {
         ButtonLogin.setFont(new java.awt.Font("Haettenschweiler", 0, 24)); // NOI18N
         ButtonLogin.setForeground(new java.awt.Color(51, 51, 51));
         ButtonLogin.setText("Entrar");
+        ButtonLogin.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ButtonLoginActionPerformed(evt);
+            }
+        });
         getContentPane().add(ButtonLogin, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 580, 160, 70));
 
         LabelTitulo.setFont(new java.awt.Font("Consolas", 0, 24)); // NOI18N
@@ -66,6 +81,55 @@ public class Login extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void ButtonLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonLoginActionPerformed
+        // TODO add your handling code here:
+        //entrarMenu.setVisible(true);
+        //this.dispose();
+        String n, s;
+        nome = TextUsuario.getText();
+        senha = TextSenha.getText();
+        
+        try
+        {
+            Class.forName("com.mysql.jdbc.Driver");
+            Connection con = DriverManager.getConnection("jdbc:mysql://localhost/academia","root","");
+            Statement stm = con.createStatement();
+            ResultSet res = stm.executeQuery("Select * from logar");
+            
+            while(res.next())
+            {
+                n = res.getString("nome");
+                s = res.getString("senha");
+                
+                if(nome.equals(n) && senha.equals(s))
+                {
+                    encontrou = 1;
+                }
+                else
+                {
+                    encontrou = 0;
+                }
+            }
+            if(encontrou == 1)
+            {
+                
+                JOptionPane.showMessageDialog(null,"Login realizado","Sucesso",JOptionPane.INFORMATION_MESSAGE);
+            }
+            else
+            {
+                JOptionPane.showMessageDialog(null,"Login e/ou usuário errado(s)","Erro",JOptionPane.ERROR_MESSAGE);
+            }
+        }
+        catch(ClassNotFoundException e)
+        {
+               JOptionPane.showMessageDialog(null,e.getMessage(),"Erro",JOptionPane.ERROR_MESSAGE);           
+        }
+        catch(SQLException e)
+        {
+               JOptionPane.showMessageDialog(null,e.getMessage(),"Erro",JOptionPane.ERROR_MESSAGE);
+        } 
+    }//GEN-LAST:event_ButtonLoginActionPerformed
 
     /**
      * @param args the command line arguments
@@ -97,7 +161,7 @@ public class Login extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new Login().setVisible(true);
+               new Login().setVisible(true);
             }
         });
     }

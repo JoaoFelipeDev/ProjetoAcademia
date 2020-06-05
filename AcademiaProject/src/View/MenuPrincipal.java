@@ -10,12 +10,17 @@ package View;
  * @author ramon
  */
 public class MenuPrincipal extends javax.swing.JFrame {
+    
+    //private Login proximo;
+   
 
     /**
      * Creates new form MenuPrincipal
      */
     public MenuPrincipal() {
         initComponents();
+        //Login proximo = new Login();
+        
     }
 
     /**
@@ -52,6 +57,11 @@ public class MenuPrincipal extends javax.swing.JFrame {
 
         MenuCliente.setIcon(new javax.swing.ImageIcon(getClass().getResource("/View/Imagens/Icons/Cadastrar.png"))); // NOI18N
         MenuCliente.setText("Cliente");
+        MenuCliente.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                MenuClienteActionPerformed(evt);
+            }
+        });
         MenuCadastrar.add(MenuCliente);
 
         MenuProduto.setIcon(new javax.swing.ImageIcon(getClass().getResource("/View/Imagens/Icons/shop-icon.png"))); // NOI18N
@@ -81,6 +91,13 @@ public class MenuPrincipal extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void MenuClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MenuClienteActionPerformed
+        // TODO add your handling code here:
+       //proximo.setVisible(true);
+        this.dispose();
+        
+    }//GEN-LAST:event_MenuClienteActionPerformed
 
     /**
      * @param args the command line arguments
